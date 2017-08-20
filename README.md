@@ -12,6 +12,8 @@ a homebridge plugin that get RaspberryPi CPU temperature.
      ]
 
 ## Version Logs
+### 0.0.3
+1.fixed bug.   
 ### 0.0.2
 1.publish to [www.npmjs.com](https://www.npmjs.com).   
 ### 0.0.1

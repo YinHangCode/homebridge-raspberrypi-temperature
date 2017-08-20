@@ -11,6 +11,10 @@ module.exports = function(homebridge) {
 }
 
 function RaspberryPiTemperature(log, config) {
+  if(null == config) {
+    return;
+  }
+	
   this.log = log;
   this.name = config["name"];
   
