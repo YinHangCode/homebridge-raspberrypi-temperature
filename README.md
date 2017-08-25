@@ -3,6 +3,8 @@
 
 a homebridge plugin that get RaspberryPi CPU temperature.
 
+![](https://raw.githubusercontent.com/YinHangCode/homebridge-raspberrypi-temperature/master/images/RaspberryPi3B.jpg)
+
 ## Configuration
     "accessories": [
         {
@@ -12,6 +14,8 @@ a homebridge plugin that get RaspberryPi CPU temperature.
      ]
 
 ## Version Logs
+### 0.0.4
+1.optimized code.   
 ### 0.0.3
 1.fixed bug.   
 ### 0.0.2
