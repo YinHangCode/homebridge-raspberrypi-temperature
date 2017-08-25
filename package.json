@@ -1,6 +1,6 @@
 {
   "name": "homebridge-raspberrypi-temperature",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a homebridge(https://github.com/nfarina/homebridge) plugin that get RaspberryPi CPU temperature.",
   "license": "ISC",
   "keywords": [
