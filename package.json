@@ -1,6 +1,6 @@
 {
   "name": "homebridge-raspberrypi-temperature",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "a homebridge(https://github.com/nfarina/homebridge) plugin that get RaspberryPi CPU temperature.",
   "keywords": [
     "homebridge-plugin",
@@ -8,7 +8,7 @@
     "raspberry-pi",
     "temperature"
   ],
-  "homepage": "https://github.com/YinHangCode/homebridge-ikonke-outlet",
+  "homepage": "https://github.com/YinHangCode/homebridge-raspberrypi-temperature",
   "author": "YinHang",
   "repository": {
     "type": "git",

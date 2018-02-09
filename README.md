@@ -22,6 +22,8 @@ If you want temperature value timing update, you can set 'updateInterval' attrib
 ```
 
 ## Version Logs
+### 0.0.6
+1.update 'package.json'.   
 ### 0.0.5
 1.add timing update value features.   
 ### 0.0.4
