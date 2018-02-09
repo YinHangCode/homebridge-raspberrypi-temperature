@@ -50,6 +50,11 @@ function RaspberryPiTemperature(log, config) {
     } else {
         this.readFile = "/sys/class/thermal/thermal_zone0/temp";
     }
+    if(config["updateInterval"] && config["updateInterval"] > 0) {
+        this.updateInterval = config["updateInterval"];
+    } else {
+        this.updateInterval = null;
+    }
   
 }
 
@@ -66,14 +71,21 @@ RaspberryPiTemperature.prototype = {
         
         var raspberrypiService = new Service.TemperatureSensor(that.name);
         var currentTemperatureCharacteristic = raspberrypiService.getCharacteristic(Characteristic.CurrentTemperature);
-        function updateCurrentTemperatureCharacteristic() {
+        function getCurrentTemperature() {
             var data = fs.readFileSync(that.readFile, "utf-8");
             var temperatureVal = parseFloat(data) / 1000;
             that.log.debug("update currentTemperatureCharacteristic value: " + temperatureVal);
-            currentTemperatureCharacteristic.updateValue(temperatureVal);
+            return temperatureVal;
         }
-        updateCurrentTemperatureCharacteristic();
-        setInterval(updateCurrentTemperatureCharacteristic, 60 * 1000);
+        currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
+        if(that.updateInterval) {
+            setInterval(() => {
+                currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
+            }, that.updateInterval);
+        }
+        currentTemperatureCharacteristic.on('get', (callback) => {
+            callback(null, getCurrentTemperature());
+        });
         
         return [infoService, raspberrypiService];
     }

@@ -6,14 +6,24 @@ a homebridge plugin that get RaspberryPi CPU temperature.
 ![](https://raw.githubusercontent.com/YinHangCode/homebridge-raspberrypi-temperature/master/images/RaspberryPi3B.jpg)
 
 ## Configuration
+```
 "accessories": [{
-  "accessory": "RaspberryPiTemperature",
-  "name": "RaspberryPi CPU Temperature"
+    "accessory": "RaspberryPiTemperature",
+    "name": "RaspberryPi CPU Temperature"
 }]
+```
+If you want temperature value timing update, you can set 'updateInterval' attribute(unit: milliseconds).   
+```
+"accessories": [{
+    "accessory": "RaspberryPiTemperature",
+    "name": "RaspberryPi CPU Temperature",
+    "updateInterval": 1000
+}]
+```
 
 ## Version Logs
 ### 0.0.5
-1.add real-time update value.   
+1.add timing update value features.   
 ### 0.0.4
 1.optimized code.   
 ### 0.0.3
