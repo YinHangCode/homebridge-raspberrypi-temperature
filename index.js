@@ -1,5 +1,7 @@
-var fs = require('fs');
 var Accessory, Service, Characteristic, UUIDGen;
+
+const fs = require('fs');
+const packageFile = require("./package.json");
 
 module.exports = function(homebridge) {
     if(!isConfig(homebridge.user.configPath(), "accessories", "RaspberryPiTemperature")) {
@@ -37,46 +39,43 @@ function isConfig(configFile, type, name) {
 }
 
 function RaspberryPiTemperature(log, config) {
-  if(null == config) {
-    return;
-  }
-    
-  this.log = log;
-  this.name = config["name"];
+    if(null == config) {
+        return;
+    }
+
+    this.log = log;
+    this.name = config["name"];
+    if(config["file"]) {
+        this.readFile = config["file"];
+    } else {
+        this.readFile = "/sys/class/thermal/thermal_zone0/temp";
+    }
   
 }
 
 RaspberryPiTemperature.prototype = {
-  identify: function(callback) {
-    callback();
-  },
-
-  getServices: function() {
-    var services = [];
-
-    var infoService = new Service.AccessoryInformation();
-    infoService
-      .setCharacteristic(Characteristic.Manufacturer, "RaspberryPi")
-      .setCharacteristic(Characteristic.Model, "3B")
-      .setCharacteristic(Characteristic.SerialNumber, "Undefined");
-    services.push(infoService);
-
-    var raspberrypiService = new Service.TemperatureSensor(this.name);
-    raspberrypiService
-      .getCharacteristic(Characteristic.CurrentTemperature)
-      .on('get', this.getTemperature.bind(this));
-    services.push(raspberrypiService);
-    
-    return services;
-  },
-  
-  getTemperature: function(callback) {
-    var data = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp","utf-8");
-    var temperature = parseFloat(data)/1000;
-    this.log.debug("temperature: " + temperature);
-    
-    callback(null, temperature);
-  }
-
+    getServices: function() {
+        var that = this;
+        
+        var infoService = new Service.AccessoryInformation();
+        infoService
+            .setCharacteristic(Characteristic.Manufacturer, "RaspberryPi")
+            .setCharacteristic(Characteristic.Model, "3B")
+            .setCharacteristic(Characteristic.SerialNumber, "Undefined")
+            .setCharacteristic(Characteristic.FirmwareRevision, packageFile.version);
+        
+        var raspberrypiService = new Service.TemperatureSensor(that.name);
+        var currentTemperatureCharacteristic = raspberrypiService.getCharacteristic(Characteristic.CurrentTemperature);
+        function updateCurrentTemperatureCharacteristic() {
+            var data = fs.readFileSync(that.readFile, "utf-8");
+            var temperatureVal = parseFloat(data) / 1000;
+            that.log.debug("update currentTemperatureCharacteristic value: " + temperatureVal);
+            currentTemperatureCharacteristic.updateValue(temperatureVal);
+        }
+        updateCurrentTemperatureCharacteristic();
+        setInterval(updateCurrentTemperatureCharacteristic, 60 * 1000);
+        
+        return [infoService, raspberrypiService];
+    }
 }
 
