@@ -20,8 +20,19 @@ If you want temperature value timing update, you can set 'updateInterval' attrib
     "updateInterval": 1000
 }]
 ```
+For Orange PI
+```
+"accessories": [{
+    "accessory": "RaspberryPiTemperature",
+    "name": "OrangePi CPU Temperature",
+    "file": "/sys/devices/virtual/thermal/thermal_zone0/temp",
+    "multiplier": 1
+}]
+```
 
 ## Version Logs
+### 0.0.7
+1. Add support OrangePI   
 ### 0.0.6
 1.update 'package.json'.   
 ### 0.0.5
