@@ -56,6 +56,7 @@ function RaspberryPiTemperature(log, config) {
         this.updateInterval = null;
     }
     this.multiplier = config["multiplier"] || 1000;
+    this.temperatureMeasurement = (typeof config["temperatureMeasurement"] === 'undefined') ? 'fahrenheit' : config["temperatureMeasurement"];
 }
 
 RaspberryPiTemperature.prototype = {
@@ -75,7 +76,10 @@ RaspberryPiTemperature.prototype = {
             var data = fs.readFileSync(that.readFile, "utf-8");
             var temperatureVal = parseFloat(data) / that.multiplier;
             that.log.debug("update currentTemperatureCharacteristic value: " + temperatureVal);
-            return temperatureVal;
+            return (that.temperatureMeasurement === 'celsius') ? fahrenheitToCelsius(temperatureVal) : temperatureVal;
+        }
+        function fahrenheitToCelsius(fahrenheit) {
+            return Math.round((fahrenheit - 32) / 1.8, 3);
         }
         currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
         if(that.updateInterval) {
