@@ -9,7 +9,8 @@ a homebridge plugin that get RaspberryPi CPU temperature.
 ```
 "accessories": [{
     "accessory": "RaspberryPiTemperature",
-    "name": "RaspberryPi CPU Temperature"
+    "name": "RaspberryPi CPU Temperature",
+    "temperatureMeasurement": "celsius"
 }]
 ```
 If you want temperature value timing update, you can set 'updateInterval' attribute(unit: milliseconds).   
@@ -17,7 +18,8 @@ If you want temperature value timing update, you can set 'updateInterval' attrib
 "accessories": [{
     "accessory": "RaspberryPiTemperature",
     "name": "RaspberryPi CPU Temperature",
-    "updateInterval": 1000
+    "updateInterval": 1000,
+    "temperatureMeasurement": "celsius"
 }]
 ```
 For Orange PI
@@ -26,11 +28,14 @@ For Orange PI
     "accessory": "RaspberryPiTemperature",
     "name": "OrangePi CPU Temperature",
     "file": "/sys/devices/virtual/thermal/thermal_zone0/temp",
-    "multiplier": 1
+    "multiplier": 1,
+    "temperatureMeasurement": "celsius"
 }]
 ```
 
 ## Version Logs
+### 0.0.8
+1. Add support for celsius config parameter
 ### 0.0.7
 1. Add support OrangePI.   
 ### 0.0.6
